@@ -20,7 +20,7 @@ namespace BiografiaAspNet.Controllers
         public IActionResult Index()
         {
             IEnumerable <DadosPessoais> dadosPessoais = db.DadosPessoais;
-            return View();
+            return View(dadosPessoais);
         }
     }
 }
