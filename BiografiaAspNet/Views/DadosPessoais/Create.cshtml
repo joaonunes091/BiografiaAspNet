@@ -1,0 +1,33 @@
+﻿@model BiografiaAspNet.Models.DadosPessoais
+
+@{ ViewData["Title"] = "Criar Curriculo"; }
+
+
+<form asp-action="Create">
+    <h2 class="text-info pl-3">Adicionar Dados Pessoais do novo Curriculo</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Nome" class="control-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DataNascimento" class="control-label"></label>
+        <input asp-for="DataNascimento" class="form-control" />
+        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Naturalidade" class="control-label"></label>
+        <input asp-for="Naturalidade" class="form-control" />
+        <span asp-validation-for="Naturalidade" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Nacionalidade" class="control-label"></label>
+        <input asp-for="Nacionalidade" class="form-control" />
+        <span asp-validation-for="Nacionalidade" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>

@@ -1,8 +1,76 @@
-﻿@{
-    ViewData["Title"] = "Dados Pessoais";
+﻿@model IEnumerable<BiografiaAspNet.Models.DadosPessoais>
+
+@{
+    ViewData["Title"] = "Currículos";
 }
-<section>
-    <article>
-        <h1>@ViewBag.Title</h1>
-    </article>
-</section>
+
+<h1>@ViewBag.Title</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Novo Currículo</a>
+</p>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class=" col-6">
+            <h2>Dados Pessoais</h2>
+        </div>
+    </div>
+
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Data de Nascimento
+                    </th>
+                    <th>
+                        Naturalidade
+                    </th>
+                    <th>
+                        Nacionalidade
+                    </th>
+                    <th>
+                        Opções
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dadosPessoais in Model)
+                {
+                <tr>
+                    <td>
+                        @dadosPessoais.Nome
+                    </td>
+                    <td>
+                        @dadosPessoais.DataNascimento
+                    </td>
+                    <td>
+                        @dadosPessoais.Naturalidade
+                    </td>
+                    <td>
+                        @dadosPessoais.Nacionalidade
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@dadosPessoais.Id" class="btn btn-warning">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@dadosPessoais.Id" class="btn btn-info">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@dadosPessoais.Id" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Não existe nenhum currículo</p>
+    }
+
+</div>
+

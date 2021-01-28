@@ -10,17 +10,33 @@ namespace BiografiaAspNet.Controllers
 {
     public class DadosPessoaisController : Controller
     {
-        private readonly BiografiaAspNetDbContext db;
+        private readonly BiografiaAspNetDbContext _db;
 
         public DadosPessoaisController(BiografiaAspNetDbContext context)
         {
-            db = context;
+            _db = context;
         }
 
         public IActionResult Index()
         {
-            IEnumerable <DadosPessoais> dadosPessoais = db.DadosPessoais;
+            IEnumerable <DadosPessoais> dadosPessoais = _db.DadosPessoais;
             return View(dadosPessoais);
+        }
+
+        //GET - Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //POST - Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Nome,DataNascimento,Naturalidade,Nacionalidade")]DadosPessoais dadosPessoais)
+        {
+            _db.DadosPessoais.Add(dadosPessoais);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
