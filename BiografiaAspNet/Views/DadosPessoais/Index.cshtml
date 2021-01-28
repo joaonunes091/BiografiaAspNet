@@ -19,31 +19,35 @@
 
     <br />
 
-    @if (Model.Count() > 0)
+    @if (Model.Count() == 0)
     {
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        Nome
-                    </th>
-                    <th>
-                        Data de Nascimento
-                    </th>
-                    <th>
-                        Naturalidade
-                    </th>
-                    <th>
-                        Nacionalidade
-                    </th>
-                    <th>
-                        Opções
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var dadosPessoais in Model)
-                {
+        <p>Não existe nenhum currículo</p>
+    }
+    else 
+    {
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Data de Nascimento
+                </th>
+                <th>
+                    Naturalidade
+                </th>
+                <th>
+                    Nacionalidade
+                </th>
+                <th>
+                    Nacionalidade
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dadosPessoais in Model)
+            {
                 <tr>
                     <td>
                         @dadosPessoais.Nome
@@ -63,13 +67,9 @@
                         <a asp-action="Delete" asp-route-id="@dadosPessoais.Id" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>Não existe nenhum currículo</p>
+            }
+        </tbody>
+    </table>
     }
 
 </div>
