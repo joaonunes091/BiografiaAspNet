@@ -32,7 +32,7 @@ namespace BiografiaAspNet.Controllers
         //POST - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
+        public async Task<IActionResult> Create([Bind("ExpProfissionalID,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
         {
             _db.ExperienciaProfissional.Add(expProfissional);
             await _db.SaveChangesAsync();
@@ -60,9 +60,9 @@ namespace BiografiaAspNet.Controllers
         // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
+        public async Task<IActionResult> Edit(int id, [Bind("ExpProfissionalID,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
         {
-            if (id != expProfissional.Id)
+            if (id != expProfissional.ExpProfissionalID)
             {
                 return NotFound();
             }
@@ -93,7 +93,7 @@ namespace BiografiaAspNet.Controllers
             }
 
             var expProfissional = await _db.ExperienciaProfissional
-                .SingleOrDefaultAsync(p => p.Id == id);
+                .SingleOrDefaultAsync(p => p.ExpProfissionalID == id);
 
             if (expProfissional == null)
             {
@@ -119,7 +119,7 @@ namespace BiografiaAspNet.Controllers
 
         private bool ExperienciaProfissionalExists(int id)
         {
-            return _db.ExperienciaProfissional.Any(p => p.Id == id);
+            return _db.ExperienciaProfissional.Any(p => p.ExpProfissionalID == id);
         }
 
     }

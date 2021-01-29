@@ -6,8 +6,8 @@
 
 <h1>Experiência Profissional</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Adicionar Expêriencia Profissional</a>
+<p class="text-right">
+    <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Adicionar Expêriencia Profissional</a>
 </p>
 
 <div class="container p-3">
@@ -47,8 +47,8 @@
                 {
                     <tr>
                         @*<td>
-                                @expProfissional.Nome.Nome
-                            </td>*@
+                            @expProfissional.Nome.DadosPessoaisID
+                        </td>*@
                         <td>
                             @expProfissional.Nome
                         </td>
@@ -61,15 +61,17 @@
                         <td>
                             @expProfissional.Funcoes
                         </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@expProfissional.Id" class="btn btn-warning">Editar</a> |
-                            <a asp-action="Delete" asp-route-id="@expProfissional.Id" class="btn btn-danger">Eliminar</a>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@expProfissional.ExpProfissionalID" class="btn btn-warning"><i class="fas fa-edit"></i></a> |
+                            <a asp-action="Delete" asp-route-id="@expProfissional.ExpProfissionalID" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <a href="../Views/DadosPessoais/Index.cshtml" class="btn btn-primary">Voltar aos Currículos</a>
     }
+    <div>
+        <a asp-action="Index" asp-controller="DadosPessoais" class="btn btn-primary">Voltar aos Curriculos</a>
+    </div>
 
 </div>

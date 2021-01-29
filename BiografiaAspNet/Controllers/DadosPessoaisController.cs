@@ -34,11 +34,15 @@ namespace BiografiaAspNet.Controllers
         //POST - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
+        public async Task<IActionResult> Create([Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
         {
-            _db.DadosPessoais.Add(dadosPessoais);
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _db.DadosPessoais.Add(dadosPessoais);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(dadosPessoais);
         }
 
         // GET: Edit
@@ -62,9 +66,9 @@ namespace BiografiaAspNet.Controllers
         // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
+        public async Task<IActionResult> Edit(int id, [Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
         {
-            if (id != dadosPessoais.Id)
+            if (id != dadosPessoais.DadosPessoaisID)
             {
                 return NotFound();
             }
@@ -95,7 +99,7 @@ namespace BiografiaAspNet.Controllers
             }
 
             var dadosPessoais = await _db.DadosPessoais
-                .SingleOrDefaultAsync(p => p.Id == id);
+                .SingleOrDefaultAsync(p => p.DadosPessoaisID == id);
 
             if (dadosPessoais == null)
             {
@@ -121,7 +125,7 @@ namespace BiografiaAspNet.Controllers
 
         private bool DadosPessoaisExists(int id)
         {
-            return _db.DadosPessoais.Any(p => p.Id == id);
+            return _db.DadosPessoais.Any(p => p.DadosPessoaisID == id);
         }
 
 

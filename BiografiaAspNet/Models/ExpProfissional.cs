@@ -8,7 +8,7 @@ namespace BiografiaAspNet.Models
 {
     public class ExpProfissional
     {
-        public int Id { get; set; }
+        public int ExpProfissionalID { get; set; }
         public int DadosPessoaisID { get; set; }
         public DadosPessoais Nome { get; set; }
         public string Entidade { get; set; }

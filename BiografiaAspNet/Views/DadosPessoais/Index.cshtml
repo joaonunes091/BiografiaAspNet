@@ -6,8 +6,8 @@
 
 <h1>@ViewBag.Title</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Novo Currículo</a>
+<p class="text-right">
+    <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Novo Currículo</a>
 </p>
 
 <div class="container p-3">
@@ -40,9 +40,6 @@
                     <th>
                         Nacionalidade
                     </th>
-                    <th>
-                        Nacionalidade
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -61,17 +58,19 @@
                         <td>
                             @dadosPessoais.Nacionalidade
                         </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@dadosPessoais.Id" class="btn btn-warning">Editar</a> |
-                            <a asp-action="ExpProfissional/Index" asp-route-id="@dadosPessoais.Id" class="btn btn-info">Experiência Profissional</a> |
-                            <a asp-action="Delete" asp-route-id="@dadosPessoais.Id" class="btn btn-danger">Eliminar</a>
+                        <td class="text-center">
+                            <a asp-action="Index" asp-controller="ExpProfissional" asp-route-id="@dadosPessoais.DadosPessoaisID" class="btn btn-info">Experiência Profissional</a>
+
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@dadosPessoais.DadosPessoaisID" class="btn btn-warning"><i class="fas fa-edit"></i></a> | 
+                            <a asp-action="Delete" asp-route-id="@dadosPessoais.DadosPessoaisID" class="btn btn-danger"> <i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     }
-    <a href="../Views/ExpProfissional/Index" class="btn btn-primary">Exp</a>
 </div>
 
 
