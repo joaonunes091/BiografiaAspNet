@@ -3,14 +3,16 @@ using BiografiaAspNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BiografiaAspNet.Migrations
 {
     [DbContext(typeof(BiografiaAspNetDbContext))]
-    partial class BiografiaAspNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210129020541_Correcao")]
+    partial class Correcao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,12 +44,15 @@ namespace BiografiaAspNet.Migrations
                     b.ToTable("DadosPessoais");
                 });
 
-            modelBuilder.Entity("BiografiaAspNet.Models.ExperienciaProfissional", b =>
+            modelBuilder.Entity("BiografiaAspNet.Models.ExpProfissional", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DadosPessoaisID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Entidade")
                         .HasColumnType("nvarchar(max)");
@@ -60,25 +65,18 @@ namespace BiografiaAspNet.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DadosPessoaisID");
+
                     b.ToTable("ExperienciaProfissional");
                 });
 
-            modelBuilder.Entity("BiografiaAspNet.Models.Formacao", b =>
+            modelBuilder.Entity("BiografiaAspNet.Models.ExpProfissional", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Detalhes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Estabelecimento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Formacao");
+                    b.HasOne("BiografiaAspNet.Models.DadosPessoais", "Nome")
+                        .WithMany()
+                        .HasForeignKey("DadosPessoaisID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

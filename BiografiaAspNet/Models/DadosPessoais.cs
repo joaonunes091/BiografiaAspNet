@@ -10,6 +10,7 @@ namespace BiografiaAspNet.Models
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+
         [DisplayName("Data de Nascimento")]
         public string DataNascimento { get; set; }
         public string Naturalidade { get; set; }

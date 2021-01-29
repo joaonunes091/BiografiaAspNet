@@ -15,8 +15,7 @@ namespace BiografiaAspNet.Data
         }
 
         public DbSet<BiografiaAspNet.Models.DadosPessoais> DadosPessoais { get; set; }
-        public DbSet<BiografiaAspNet.Models.ExperienciaProfissional> ExperienciaProfissional { get; set; }
-        public DbSet<BiografiaAspNet.Models.Formacao> Formacao { get; set; }
+        public DbSet<BiografiaAspNet.Models.ExpProfissional> ExperienciaProfissional { get; set; }
 
     }
 }

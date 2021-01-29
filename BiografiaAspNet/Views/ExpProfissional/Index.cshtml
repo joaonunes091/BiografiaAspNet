@@ -1,0 +1,75 @@
+﻿@model IEnumerable<BiografiaAspNet.Models.ExpProfissional>
+
+@{
+    ViewData["Title"] = "Experiência Profissional";
+}
+
+<h1>Experiência Profissional</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Adicionar Expêriencia Profissional</a>
+</p>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class=" col-6">
+            <h2>Dados Pessoais</h2>
+        </div>
+    </div>
+
+    <br />
+
+    @if (Model.Count() == 0)
+    {
+        <p>Adicione Experiencia Pofissional</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Entidade
+                    </th>
+                    <th>
+                        Período de Exercicio de Funções
+                    </th>
+                    <th>
+                        Funções
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var expProfissional in Model)
+                {
+                    <tr>
+                        @*<td>
+                                @expProfissional.Nome.Nome
+                            </td>*@
+                        <td>
+                            @expProfissional.Nome
+                        </td>
+                        <td>
+                            @expProfissional.Entidade
+                        </td>
+                        <td>
+                            @expProfissional.Periodo
+                        </td>
+                        <td>
+                            @expProfissional.Funcoes
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@expProfissional.Id" class="btn btn-warning">Editar</a> |
+                            <a asp-action="Delete" asp-route-id="@expProfissional.Id" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="../Views/DadosPessoais/Index.cshtml" class="btn btn-primary">Voltar aos Currículos</a>
+    }
+
+</div>

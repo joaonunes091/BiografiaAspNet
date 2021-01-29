@@ -1,7 +1,6 @@
 ﻿using BiografiaAspNet.Data;
 using BiografiaAspNet.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace BiografiaAspNet.Controllers
 {
-    public class DadosPessoaisController : Controller
+    public class ExpProfissionalController : Controller
     {
         private readonly BiografiaAspNetDbContext _db;
-
-        public DadosPessoaisController(BiografiaAspNetDbContext context)
+        public ExpProfissionalController(BiografiaAspNetDbContext context)
         {
             _db = context;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
-            return View(dadosPessoais);
+            IEnumerable<ExpProfissional> expProfissionals = _db.ExperienciaProfissional;
+            return View(expProfissionals);
         }
 
         //GET - Create
@@ -34,9 +32,9 @@ namespace BiografiaAspNet.Controllers
         //POST - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
+        public async Task<IActionResult> Create([Bind("Id,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
         {
-            _db.DadosPessoais.Add(dadosPessoais);
+            _db.ExperienciaProfissional.Add(expProfissional);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -49,39 +47,39 @@ namespace BiografiaAspNet.Controllers
                 return NotFound();
             }
 
-            var dadosPessoais = await _db.DadosPessoais.FindAsync(id);
+            var expProfissional = await _db.ExperienciaProfissional.FindAsync(id);
 
-            if (dadosPessoais == null)
+            if (expProfissional == null)
             {
                 return View("Inexistente");
             }
 
-            return View(dadosPessoais);
+            return View(expProfissional);
         }
 
         // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
         {
-            if (id != dadosPessoais.Id)
+            if (id != expProfissional.Id)
             {
                 return NotFound();
             }
             try
             {
-                _db.Update(dadosPessoais);
+                _db.Update(expProfissional);
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
 
-                ModelState.AddModelError("", "Ocorreu um erro. Não foi possível guardar o currículo. Tente novamente e se o problema persistir contacte a assistência.");
-                return View(dadosPessoais);
+                ModelState.AddModelError("", "Ocorreu um erro. Não foi possível guardar a experoência. Tente novamente e se o problema persistir contacte a assistência.");
+                return View(expProfissional);
 
             }
 
-            ViewBag.Mensagem = "Currículo alterado com sucesso";
+            ViewBag.Mensagem = "Experiência alterada com sucesso";
             return View("Sucesso");
         }
 
@@ -94,16 +92,16 @@ namespace BiografiaAspNet.Controllers
                 return NotFound();
             }
 
-            var dadosPessoais = await _db.DadosPessoais
+            var expProfissional = await _db.ExperienciaProfissional
                 .SingleOrDefaultAsync(p => p.Id == id);
 
-            if (dadosPessoais == null)
+            if (expProfissional == null)
             {
-                ViewBag.Mensagem = "O currículo que estava a tentar apagar foi eliminado por outra pessoa.";
+                ViewBag.Mensagem = "Já não existe a experiência que prentendia eliminar.";
                 return View("Sucesso");
             }
 
-            return View(dadosPessoais);
+            return View(expProfissional);
         }
 
         // POST: Delete
@@ -111,19 +109,19 @@ namespace BiografiaAspNet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dadosPessoais = await _db.DadosPessoais.FindAsync(id);
-            _db.DadosPessoais.Remove(dadosPessoais);
+            var expProfissional = await _db.ExperienciaProfissional.FindAsync(id);
+            _db.ExperienciaProfissional.Remove(expProfissional);
             await _db.SaveChangesAsync();
 
-            ViewBag.Mensagem = "O currículo foi eliminado com sucesso";
+            ViewBag.Mensagem = "A Experiência Profissional foi eliminada com sucesso";
             return View("Sucesso");
         }
 
-        private bool DadosPessoaisExists(int id)
+        private bool ExperienciaProfissionalExists(int id)
         {
-            return _db.DadosPessoais.Any(p => p.Id == id);
+            return _db.ExperienciaProfissional.Any(p => p.Id == id);
         }
 
-
     }
+
 }
