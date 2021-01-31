@@ -24,7 +24,24 @@ namespace BiografiaAspNet.Controllers
             IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
             return View(dadosPessoais);
         }
+        // GET: ExpProfissional/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var dadosPessoais = await _db.DadosPessoais
+                .Include(e => e.ExpProfissionais)
+                .FirstOrDefaultAsync(m => m.DadosPessoaisID == id);
+            if (dadosPessoais == null)
+            {
+                return NotFound();
+            }
+
+            return View(dadosPessoais);
+        }
         //GET - Create
         public IActionResult Create()
         {

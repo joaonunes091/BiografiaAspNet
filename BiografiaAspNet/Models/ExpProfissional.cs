@@ -10,7 +10,7 @@ namespace BiografiaAspNet.Models
     {
         public int ExpProfissionalID { get; set; }
         public int DadosPessoaisID { get; set; }
-        public DadosPessoais Nome { get; set; }
+        public DadosPessoais DadosPessoais { get; set; }
         public string Entidade { get; set; }
 
         [DisplayName("Período de Exercicio de Funções")]

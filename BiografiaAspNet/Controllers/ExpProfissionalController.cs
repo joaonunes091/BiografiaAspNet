@@ -1,45 +1,76 @@
-﻿using BiografiaAspNet.Data;
-using BiografiaAspNet.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using BiografiaAspNet.Data;
+using BiografiaAspNet.Models;
 
 namespace BiografiaAspNet.Controllers
 {
     public class ExpProfissionalController : Controller
     {
         private readonly BiografiaAspNetDbContext _db;
+
         public ExpProfissionalController(BiografiaAspNetDbContext context)
         {
             _db = context;
         }
 
-        public IActionResult Index()
+        // GET: ExpProfissional
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<ExpProfissional> expProfissionals = _db.ExperienciaProfissional;
-            return View(expProfissionals);
+            var biografiaAspNetDbContext = _db.ExperienciaProfissional.Include(e => e.DadosPessoais);
+            return View(await biografiaAspNetDbContext.ToListAsync());
         }
 
-        //GET - Create
+        // GET: ExpProfissional/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var expProfissional = await _db.ExperienciaProfissional
+                .Include(e => e.DadosPessoais)
+                .FirstOrDefaultAsync(m => m.ExpProfissionalID == id);
+            if (expProfissional == null)
+            {
+                return NotFound();
+            }
+
+            return View(expProfissional);
+        }
+
+        // GET: ExpProfissional/Create
         public IActionResult Create()
         {
+            ViewData["DadosPessoaisID"] = new SelectList(_db.DadosPessoais, "DadosPessoaisID", "Nome");
             return View();
         }
 
-        //POST - Create
+        // POST: ExpProfissional/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ExpProfissionalID,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
         {
-            _db.ExperienciaProfissional.Add(expProfissional);
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _db.Add(expProfissional);
+                await _db.SaveChangesAsync();
+                ViewBag.Mensagem = "Experiência profissional criada com sucesso";
+                return View("Sucesso");
+            }
+            //ViewData["DadosPessoaisID"] = new SelectList(_db.DadosPessoais, "DadosPessoaisID", "Nome", expProfissional.DadosPessoaisID);
+            return View ();
         }
 
-        // GET: Edit
+        // GET: ExpProfissional/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -48,16 +79,17 @@ namespace BiografiaAspNet.Controllers
             }
 
             var expProfissional = await _db.ExperienciaProfissional.FindAsync(id);
-
             if (expProfissional == null)
             {
                 return View("Inexistente");
             }
-
+            ViewData["DadosPessoaisID"] = new SelectList(_db.DadosPessoais, "DadosPessoaisID", "Nome", expProfissional.DadosPessoaisID);
             return View(expProfissional);
         }
 
-        // POST: Edit
+        // POST: ExpProfissional/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ExpProfissionalID,DadosPessoaisID,Entidade,Periodo,Funcoes")] ExpProfissional expProfissional)
@@ -74,17 +106,16 @@ namespace BiografiaAspNet.Controllers
             catch (DbUpdateConcurrencyException)
             {
 
-                ModelState.AddModelError("", "Ocorreu um erro. Não foi possível guardar a experoência. Tente novamente e se o problema persistir contacte a assistência.");
-                return View(expProfissional);
+                ModelState.AddModelError("", "Ocorreu um erro. Não foi possível guardar o currículo. Tente novamente e se o problema persistir contacte a assistência.");
+                return View("Erro");
 
             }
 
-            ViewBag.Mensagem = "Experiência alterada com sucesso";
+            ViewBag.Mensagem = "Currículo alterado com sucesso";
             return View("Sucesso");
         }
 
-
-        // GET: Delete
+        // GET: ExpProfissional/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -93,18 +124,17 @@ namespace BiografiaAspNet.Controllers
             }
 
             var expProfissional = await _db.ExperienciaProfissional
-                .SingleOrDefaultAsync(p => p.ExpProfissionalID == id);
-
+                .Include(e => e.DadosPessoais)
+                .FirstOrDefaultAsync(m => m.ExpProfissionalID == id);
             if (expProfissional == null)
             {
-                ViewBag.Mensagem = "Já não existe a experiência que prentendia eliminar.";
-                return View("Sucesso");
+                return NotFound();
             }
 
             return View(expProfissional);
         }
 
-        // POST: Delete
+        // POST: ExpProfissional/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -112,16 +142,13 @@ namespace BiografiaAspNet.Controllers
             var expProfissional = await _db.ExperienciaProfissional.FindAsync(id);
             _db.ExperienciaProfissional.Remove(expProfissional);
             await _db.SaveChangesAsync();
-
-            ViewBag.Mensagem = "A Experiência Profissional foi eliminada com sucesso";
+            ViewBag.Mensagem = "Experiência profissional eliminada com sucesso";
             return View("Sucesso");
         }
 
-        private bool ExperienciaProfissionalExists(int id)
+        private bool ExpProfissionalExists(int id)
         {
-            return _db.ExperienciaProfissional.Any(p => p.ExpProfissionalID == id);
+            return _db.ExperienciaProfissional.Any(e => e.ExpProfissionalID == id);
         }
-
     }
-
 }

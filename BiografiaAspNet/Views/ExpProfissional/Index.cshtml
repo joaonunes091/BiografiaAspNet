@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BiografiaAspNet.Models.ExpProfissional>
+﻿@*@model IEnumerable<BiografiaAspNet.Models.ExpProfissional>
 
 @{
     ViewData["Title"] = "Experiência Profissional";
@@ -46,11 +46,11 @@
                 @foreach (var expProfissional in Model)
                 {
                     <tr>
-                        @*<td>
-                            @expProfissional.Nome.DadosPessoaisID
-                        </td>*@
                         <td>
-                            @expProfissional.Nome
+                            @expProfissional.Nome.DadosPessoaisID
+                        </td>
+                        <td>
+                            @expProfissional.DadosPessoais
                         </td>
                         <td>
                             @expProfissional.Entidade
@@ -74,4 +74,4 @@
         <a asp-action="Index" asp-controller="DadosPessoais" class="btn btn-primary">Voltar aos Curriculos</a>
     </div>
 
-</div>
+</div>*@
