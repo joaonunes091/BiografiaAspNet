@@ -1,5 +1,6 @@
 ﻿using BiografiaAspNet.Data;
 using BiografiaAspNet.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +20,19 @@ namespace BiografiaAspNet.Controllers
             _db = context;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
             return View(dadosPessoais);
         }
+        public IActionResult IndexAll()
+        {
+            IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
+            return View(dadosPessoais);
+        }
         // GET: ExpProfissional/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,7 +50,26 @@ namespace BiografiaAspNet.Controllers
 
             return View(dadosPessoais);
         }
+
+        public async Task<IActionResult> DetailsAll(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dadosPessoais = await _db.DadosPessoais
+                .Include(e => e.ExpProfissionais)
+                .FirstOrDefaultAsync(m => m.DadosPessoaisID == id);
+            if (dadosPessoais == null)
+            {
+                return NotFound();
+            }
+
+            return View(dadosPessoais);
+        }
         //GET - Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -51,6 +78,7 @@ namespace BiografiaAspNet.Controllers
         //POST - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
         {
             if (ModelState.IsValid)

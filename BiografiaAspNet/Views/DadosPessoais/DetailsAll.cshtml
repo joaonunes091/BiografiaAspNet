@@ -1,0 +1,39 @@
+﻿@model BiografiaAspNet.Models.DadosPessoais
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Experiência Profissional</h1>
+
+<div>
+    <h2>@Html.DisplayFor(m => Model.Nome)</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Entidade Empregadora</th>
+                <th>Período de Exercicio de Funções</th>
+                <th>Funções</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ExpProfissionais)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Entidade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Periodo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Funcoes)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="IndexAll" asp-controller="DadosPessoais">Voltar aos Curriculos</a>
+</div>

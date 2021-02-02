@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BiografiaAspNet.Models.DadosPessoais>
+
+@{
+    ViewData["Title"] = "Currículos";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class=" col-6">
+            <h2>Dados Pessoais</h2>
+        </div>
+    </div>
+
+    <br />
+
+    @if (Model.Count() == 0)
+    {
+        <p>Não existe nenhum currículo</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Data de Nascimento
+                    </th>
+                    <th>
+                        Naturalidade
+                    </th>
+                    <th>
+                        Nacionalidade
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dadosPessoais in Model)
+                {
+                    <tr>
+                        <td>
+                            @dadosPessoais.Nome
+                        </td>
+                        <td>
+                            @dadosPessoais.DataNascimento
+                        </td>
+                        <td>
+                            @dadosPessoais.Naturalidade
+                        </td>
+                        <td>
+                            @dadosPessoais.Nacionalidade
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="DetailsAll" asp-route-id="@dadosPessoais.DadosPessoaisID" class="btn btn-primary btn btn-info">Experiência Profissional</a>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+

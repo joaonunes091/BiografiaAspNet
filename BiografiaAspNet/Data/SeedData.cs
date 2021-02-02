@@ -43,8 +43,13 @@ namespace BiografiaAspNet.Data
 
         internal static async Task InsereAdministradorPadraoAsync(UserManager<IdentityUser> gestorUtilizadores)
         {
-            IdentityUser utilizador = await CriaUtilizadorSeNaoExiste(gestorUtilizadores, NOME_UTILIZADOR_ADMIN_PADRAO, PASSWORD_UTILIZADOR_ADMIN_PADRAO);
+            string nomesUtilizador = NOME_UTILIZADOR_ADMIN_PADRAO;
+            string passwordUtilizador = PASSWORD_UTILIZADOR_ADMIN_PADRAO;
+            IdentityUser utilizador = await CriaUtilizadorSeNaoExiste(gestorUtilizadores, nomesUtilizador, passwordUtilizador);
+
+
             await AdicionaUtilizadorRoleSeNecessario(gestorUtilizadores, utilizador, ROLE_ADIMINISTRADOR);
+
         }
 
         private static async Task AdicionaUtilizadorRoleSeNecessario(UserManager<IdentityUser> gestorUtilizadores, IdentityUser utilizador, string role)

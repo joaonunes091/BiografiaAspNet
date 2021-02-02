@@ -15,6 +15,9 @@
   <ItemGroup>
     <Compile Include="Migrations\20210129143755_Initial.cs" />
     <Compile Include="Migrations\20210129143755_Initial.Designer.cs" />
+    <Compile Include="Migrations\ApplicationDb\20210202152506_Initial.cs" />
+    <Compile Include="Migrations\ApplicationDb\20210202152506_Initial.Designer.cs" />
+    <Compile Include="Migrations\ApplicationDb\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Migrations\BiografiaAspNetDbContextModelSnapshot.cs" />
   </ItemGroup>
 
@@ -29,10 +32,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>
