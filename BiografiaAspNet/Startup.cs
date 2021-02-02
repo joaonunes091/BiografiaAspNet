@@ -30,16 +30,38 @@ namespace BiografiaAspNet
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<BiografiaAspNetDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("BiografiaAspNetDbContext")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+                // Sign in
+                options.SignIn.RequireConfirmedAccount = false;
+
+                // Password
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 6;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+
+                // Lockout
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI();
+
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddDbContext<BiografiaAspNetDbContext>(options => 
+                    options.UseSqlServer(Configuration.GetConnectionString("BiografiaAspNetDbContext")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            BiografiaAspNetDbContext _db,
+            UserManager<IdentityUser> gestorUtilizadores)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +89,10 @@ namespace BiografiaAspNet
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            //SeedData.InsereRolesAsync(gestorRoles).Wait();
+            //SeedData.InsereAdministradorPadraoAsync(gestorUtilizadores).Wait();
+
         }
     }
 }
