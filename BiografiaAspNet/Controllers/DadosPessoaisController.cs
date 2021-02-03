@@ -26,10 +26,33 @@ namespace BiografiaAspNet.Controllers
             IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
             return View(dadosPessoais);
         }
-        public IActionResult IndexAll()
+        //All
+        //public IActionResult IndexAll()
+        //{
+        //    IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
+        //    return View(dadosPessoais);
+        //}
+        public async Task<IActionResult> IndexAll(int pagina = 1)
         {
-            IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
-            return View(dadosPessoais);
+            Paginacao paginacao = new Paginacao
+            {
+                TotalItems = await _db.DadosPessoais.CountAsync(),
+                PaginaAtual = pagina
+            };
+
+            List<DadosPessoais> dadosPessoais = await _db.DadosPessoais
+                .OrderBy(p => p.Nome)
+                .Skip(paginacao.ItemsPorPagina * (pagina - 1))
+                .Take(paginacao.ItemsPorPagina)
+                .ToListAsync();
+
+            ListaDadosPessoaisViewModel modelo = new ListaDadosPessoaisViewModel
+            {
+                Paginacao = paginacao,
+                DadosPessoais = dadosPessoais
+            };
+
+            return base.View(modelo);
         }
         // GET: ExpProfissional/Details/5
         [Authorize]

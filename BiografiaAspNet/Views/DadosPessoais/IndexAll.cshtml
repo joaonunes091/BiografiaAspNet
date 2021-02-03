@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BiografiaAspNet.Models.DadosPessoais>
+﻿@model ListaDadosPessoaisViewModel
 
 @{
     ViewData["Title"] = "Currículos";
@@ -15,7 +15,7 @@
 
     <br />
 
-    @if (Model.Count() == 0)
+    @if (Model.DadosPessoais.Count() == 0)
     {
         <p>Não existe nenhum currículo</p>
     }
@@ -39,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var dadosPessoais in Model)
+                @foreach (var dadosPessoais in Model.DadosPessoais)
                 {
                     <tr>
                         <td>
@@ -60,7 +60,50 @@
                 }
             </tbody>
         </table>
-    }
+        <div>
+            <ul class="pagination">
+                @{ int paginaInicial = Model.Paginacao.PaginaAtual - Paginacao.NUMERO_PAGINAS_MOSTRAR_ANTES_DEPOIS / 2;
+                    if (paginaInicial < 1)
+                    {
+                        paginaInicial = 1;
+                    }
+
+                    int paginaFinal = paginaInicial + Paginacao.NUMERO_PAGINAS_MOSTRAR_ANTES_DEPOIS - 1;
+                    if (paginaFinal > Model.Paginacao.TotalPaginas)
+                    {
+                        paginaFinal = Model.Paginacao.TotalPaginas;
+                    }
+                }
+
+                <li class="page-item @(Model.Paginacao.PaginaAtual == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="IndexAll" asp-route-pagina="1">Inicial</a>
+                </li>
+                @for (int i = paginaInicial; i <= paginaFinal; i++)
+                {
+                    <li class="page-item @(Model.Paginacao.PaginaAtual == i ? "active" : "")">
+                        <a class="page-link" asp-action="IndexAll" asp-route-pagina="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.Paginacao.PaginaAtual == Model.Paginacao.TotalPaginas ? "disabled" : "")">
+                    <a class="page-link" asp-action="IndexAll" asp-route-pagina="@Model.Paginacao.TotalPaginas">Última</a>
+                </li>
+
+                @*<li class="page-item @(Model.Paginacao.PaginaAtual == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-pagina="1" asp-route-nomePesquisar="@Model.NomePesquisar">Primeiro</a>
+                        </li>
+
+                        @for (int i = paginaInicial; i <= paginaFinal; i++)
+                        {
+                            <li class="page-item @(Model.Paginacao.PaginaAtual == i ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-route-pagina="@i" asp-route-nomePesquisar="@Model.NomePesquisar">@i</a>
+                            </li>
+        }
+
+                        <li class="page-item @(Model.Paginacao.PaginaAtual == Model.Paginacao.TotalPaginas  ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-pagina="@Model.Paginacao.TotalPaginas" asp-route-nomePesquisar="@Model.NomePesquisar">Último</a>
+                        </li>*@
+            </ul>
+        </div>}
 </div>
 
 

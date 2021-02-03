@@ -9,7 +9,7 @@ namespace BiografiaAspNet.Data
 {
     public class SeedData
     {
-        private const string NOME_UTILIZADOR_ADMIN_PADRAO = "admin@ipg.pt";
+        private const string NOME_UTILIZADOR_ADMIN_PADRAO = "joaonunes@upskill.pt";
         private const string PASSWORD_UTILIZADOR_ADMIN_PADRAO = "Secret123$";
 
         private const string ROLE_ADIMINISTRADOR = "Administrador";
