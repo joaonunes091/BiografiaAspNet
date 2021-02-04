@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BiografiaAspNet.Migrations
 {
@@ -12,10 +13,11 @@ namespace BiografiaAspNet.Migrations
                 {
                     DadosPessoaisID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: false),
                     DataNascimento = table.Column<string>(nullable: true),
                     Naturalidade = table.Column<string>(nullable: true),
-                    Nacionalidade = table.Column<string>(nullable: true)
+                    Nacionalidade = table.Column<string>(nullable: true),
+                    Foto = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {

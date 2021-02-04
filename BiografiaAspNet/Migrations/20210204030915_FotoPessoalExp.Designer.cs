@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiografiaAspNet.Migrations
 {
     [DbContext(typeof(BiografiaAspNetDbContext))]
-    [Migration("20210204023023_FotoPessoa")]
-    partial class FotoPessoa
+    [Migration("20210204030915_FotoPessoalExp")]
+    partial class FotoPessoalExp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,6 @@ namespace BiografiaAspNet.Migrations
 
                     b.Property<string>("DataNascimento")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Foto")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Nacionalidade")
                         .HasColumnType("nvarchar(max)");
@@ -61,6 +58,9 @@ namespace BiografiaAspNet.Migrations
 
                     b.Property<string>("Entidade")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Foto")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Funcoes")
                         .HasColumnType("nvarchar(max)");

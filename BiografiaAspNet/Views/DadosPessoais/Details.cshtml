@@ -10,6 +10,13 @@
 </p>
 <div>
     <h2>@Html.DisplayFor(m => Model.Nome)</h2>
+    <div style="width:150px;">
+        @if (Model.Foto != null)
+        {
+            <img src="data:image/jpeg;base64, @Convert.ToBase64String(Model.Foto)" class="img-fluid" />
+        }
+    </div>
+    <br />
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
