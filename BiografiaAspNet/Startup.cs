@@ -87,6 +87,13 @@ namespace BiografiaAspNet
 
             SeedData.InsereRolesAsync(gestorRoles).Wait();
             SeedData.InsereAdministradorPadraoAsync(gestorUtilizadores).Wait();
+
+            if (env.IsDevelopment())
+            {
+                SeedData.InsereExpProfissionalFicticios(_db);
+                //SeedData.InsereExpProfissionalFicticios(_db);
+
+            }
         }
     }
 }

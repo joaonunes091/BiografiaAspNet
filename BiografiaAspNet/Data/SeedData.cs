@@ -16,6 +16,108 @@ namespace BiografiaAspNet.Data
         private const string ROLE_CLIENTE = "Cliente";
         private const string ROLE_GESTOR_PRODUTOS = "GestorProdutos";
 
+        internal static void InsereExpProfissionalFicticios(BiografiaAspNetDbContext _db)
+        {
+            if (_db.DadosPessoais.Any()) return;
+
+            _db.DadosPessoais.AddRange(new DadosPessoais[] {
+                new DadosPessoais
+                {
+                    Nome = "João Nunes",
+                    DataNascimento = "12/01/1994",
+                    Naturalidade = "Oliveira do Hospital",
+                    Nacionalidade = "Portuguesa"
+                },
+                new DadosPessoais
+                {
+                    Nome = "Maria Antónia",
+                    DataNascimento = "30/11/1999",
+                    Naturalidade = "Porto",
+                    Nacionalidade = "Espanhola"
+                },
+                new DadosPessoais
+                {
+                    Nome = "Maria Antónia",
+                    DataNascimento = "30/11/1999",
+                    Naturalidade = "Porto",
+                    Nacionalidade = "Espanhola"
+                },
+                new DadosPessoais
+                {
+                    Nome = "Maria Antónia",
+                    DataNascimento = "30/11/1999",
+                    Naturalidade = "Porto",
+                    Nacionalidade = "Espanhola"
+                },
+                new DadosPessoais
+                {
+                    Nome = "Mario Gonçalves",
+                    DataNascimento = "30/11/1999",
+                    Naturalidade = "Porto",
+                    Nacionalidade = "Espanhola"
+                },
+                new DadosPessoais
+                {
+                    Nome = "Ana Maria",
+                    DataNascimento = "30/11/1999",
+                    Naturalidade = "Porto",
+                    Nacionalidade = "Espanhola"
+                },
+                new DadosPessoais
+                {
+                    Nome = "José Fonseca",
+                    DataNascimento = "01/01/2000",
+                    Naturalidade = "Lisboa",
+                    Nacionalidade = "Portuguesa"
+                }
+            });
+        }
+
+        //internal static void InsereExpProfissionalFicticios(BiografiaAspNetDbContext _db, DadosPessoais pessoa)
+        //{
+        //    if (_db.ExperienciaProfissional.Any()) return;
+
+        //    _db.ExperienciaProfissional.AddRange(new ExpProfissional[] {
+        //        new ExpProfissional
+        //        {
+        //            Entidade = "Knegra",
+        //            Periodo = "3 anos",
+        //            Funcoes = "Knegra",
+        //            DadosPessoais = pessoa
+        //        },
+        //        new ExpProfissional
+        //        {
+        //            Entidade = "AAG",
+        //            Periodo = "2 anos",
+        //            Funcoes = "Presidente da Direção",
+        //            DadosPessoais = pessoa
+        //        },
+        //        new ExpProfissional
+        //        {
+        //            Entidade = "IPG",
+        //            Periodo = "1 ano",
+        //            Funcoes = "Funcionária de limpeza",
+        //            DadosPessoais = pessoa
+
+        //        },
+        //        new ExpProfissional
+        //        {
+        //            Entidade = "Meo",
+        //            Periodo = "3 ano",
+        //            Funcoes = "Consultora",
+        //            DadosPessoais = pessoa
+        //        },
+        //        new ExpProfissional
+        //        {
+        //            Entidade = "EPD",
+        //            Periodo = "3 meses",
+        //            Funcoes = "Contagem",
+        //            DadosPessoais = pessoa
+        //        },
+        //    });
+        //    _db.SaveChanges();
+        //}
+
         internal static async Task InsereUtilizadoresFicticiosAsync(UserManager<IdentityUser> gestorUtilizadores)
         {
             IdentityUser cliente = await CriaUtilizadorSeNaoExiste(gestorUtilizadores, "joao@ipg.pt", "Secret123$");
