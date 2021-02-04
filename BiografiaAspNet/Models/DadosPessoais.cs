@@ -17,6 +17,7 @@ namespace BiografiaAspNet.Models
         public string DataNascimento { get; set; }
         public string Naturalidade { get; set; }
         public string Nacionalidade { get; set; }
+        public byte[] Foto { get; set; }
         public ICollection<ExpProfissional> ExpProfissionais { get; set; }
     }
 }

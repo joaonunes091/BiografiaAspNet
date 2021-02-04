@@ -1,11 +1,13 @@
 ﻿using BiografiaAspNet.Data;
 using BiografiaAspNet.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -121,10 +123,19 @@ namespace BiografiaAspNet.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
+        public async Task<IActionResult> Create([Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais, IFormFile ficheiroFoto)
         {
             if (ModelState.IsValid)
             {
+                if(ficheiroFoto != null && ficheiroFoto.Length > 0)
+                {
+                    using (var ficheiroMemoria = new MemoryStream())
+                    {
+                        ficheiroFoto.CopyTo(ficheiroMemoria);
+                        dadosPessoais.Foto = ficheiroMemoria.ToArray();
+                    }
+                }
+
                 _db.DadosPessoais.Add(dadosPessoais);
                 await _db.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
@@ -154,7 +165,7 @@ namespace BiografiaAspNet.Controllers
         // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais)
+        public async Task<IActionResult> Edit(int id, [Bind("DadosPessoaisID,Nome,DataNascimento,Naturalidade,Nacionalidade")] DadosPessoais dadosPessoais, IFormFile ficheiroFoto)
         {
             if (id != dadosPessoais.DadosPessoaisID)
             {
@@ -162,6 +173,14 @@ namespace BiografiaAspNet.Controllers
             }
             try
             {
+                if (ficheiroFoto != null && ficheiroFoto.Length > 0)
+                {
+                    using (var ficheiroMemoria = new MemoryStream())
+                    {
+                        ficheiroFoto.CopyTo(ficheiroMemoria);
+                        dadosPessoais.Foto = ficheiroMemoria.ToArray();
+                    }
+                }
                 _db.Update(dadosPessoais);
                 await _db.SaveChangesAsync();
             }
