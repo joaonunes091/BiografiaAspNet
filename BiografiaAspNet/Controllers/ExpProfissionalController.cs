@@ -63,7 +63,7 @@ namespace BiografiaAspNet.Controllers
             {
                 _db.Add(expProfissional);
                 await _db.SaveChangesAsync();
-                ViewBag.Mensagem = "Experiência profissional criada com sucesso";
+                ViewBag.Mensagem = "Experiência profissional adicionada com sucesso";
                 return View("Sucesso");
             }
             //ViewData["DadosPessoaisID"] = new SelectList(_db.DadosPessoais, "DadosPessoaisID", "Nome", expProfissional.DadosPessoaisID);

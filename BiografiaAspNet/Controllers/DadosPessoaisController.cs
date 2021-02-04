@@ -21,26 +21,20 @@ namespace BiografiaAspNet.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
-        {
-            IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
-            return View(dadosPessoais);
-        }
-        //All
-        //public IActionResult IndexAll()
+        //public IActionResult Index()
         //{
         //    IEnumerable<DadosPessoais> dadosPessoais = _db.DadosPessoais;
         //    return View(dadosPessoais);
         //}
-        public async Task<IActionResult> IndexAll(int pagina = 1)
+        public async Task<IActionResult> Index(string nomePesquisar, int pagina = 1)
         {
             Paginacao paginacao = new Paginacao
             {
-                TotalItems = await _db.DadosPessoais.CountAsync(),
+                TotalItems = await _db.DadosPessoais.Where(p => nomePesquisar == null || p.Nome.Contains(nomePesquisar)).CountAsync(),
                 PaginaAtual = pagina
             };
 
-            List<DadosPessoais> dadosPessoais = await _db.DadosPessoais
+            List<DadosPessoais> dadosPessoais = await _db.DadosPessoais.Where(p => nomePesquisar == null || p.Nome.Contains(nomePesquisar))
                 .OrderBy(p => p.Nome)
                 .Skip(paginacao.ItemsPorPagina * (pagina - 1))
                 .Take(paginacao.ItemsPorPagina)
@@ -49,7 +43,32 @@ namespace BiografiaAspNet.Controllers
             ListaDadosPessoaisViewModel modelo = new ListaDadosPessoaisViewModel
             {
                 Paginacao = paginacao,
-                DadosPessoais = dadosPessoais
+                DadosPessoais = dadosPessoais,
+                NomePesquisar = nomePesquisar
+            };
+
+            return base.View(modelo);
+        }
+        //All
+        public async Task<IActionResult> IndexAll(string nomePesquisar, int pagina = 1)
+        {
+            Paginacao paginacao = new Paginacao
+            {
+                TotalItems = await _db.DadosPessoais.Where(p => nomePesquisar == null || p.Nome.Contains(nomePesquisar)).CountAsync(),
+                PaginaAtual = pagina
+            };
+
+            List<DadosPessoais> dadosPessoais = await _db.DadosPessoais.Where(p => nomePesquisar == null || p.Nome.Contains(nomePesquisar))
+                .OrderBy(p => p.Nome)
+                .Skip(paginacao.ItemsPorPagina * (pagina - 1))
+                .Take(paginacao.ItemsPorPagina)
+                .ToListAsync();
+
+            ListaDadosPessoaisViewModel modelo = new ListaDadosPessoaisViewModel
+            {
+                Paginacao = paginacao,
+                DadosPessoais = dadosPessoais,
+                NomePesquisar = nomePesquisar
             };
 
             return base.View(modelo);
@@ -108,9 +127,10 @@ namespace BiografiaAspNet.Controllers
             {
                 _db.DadosPessoais.Add(dadosPessoais);
                 await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            return View(dadosPessoais);
+            ViewBag.Mensagem = "Currículo adicionado com sucesso.";
+            return View("Sucesso");
         }
 
         // GET: Edit

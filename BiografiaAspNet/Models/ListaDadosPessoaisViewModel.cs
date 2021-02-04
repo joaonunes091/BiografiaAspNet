@@ -9,5 +9,6 @@ namespace BiografiaAspNet.Models
     {
         public List<DadosPessoais> DadosPessoais { get; set; }
         public Paginacao Paginacao { get; set; }
+        public string NomePesquisar { get; set; }
     }
 }
