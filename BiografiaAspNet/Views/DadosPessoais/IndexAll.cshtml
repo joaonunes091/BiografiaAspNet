@@ -91,16 +91,16 @@
                 }
 
                 <li class="page-item @(Model.Paginacao.PaginaAtual == 1 ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-pagina="1" asp-route-nomePesquisar="@Model.NomePesquisar">Inicial</a>
+                    <a class="page-link" asp-action="IndexAll" asp-route-pagina="1" asp-route-nomePesquisar="@Model.NomePesquisar">Inicial</a>
                 </li>
                 @for (int i = paginaInicial; i <= paginaFinal; i++)
                 {
                     <li class="page-item @(Model.Paginacao.PaginaAtual == i ? "active" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-pagina="@i" asp-route-nomePesquisar="@Model.NomePesquisar">@i</a>
+                        <a class="page-link" asp-action="IndexAll" asp-route-pagina="@i" asp-route-nomePesquisar="@Model.NomePesquisar">@i</a>
                     </li>
                 }
                 <li class="page-item @(Model.Paginacao.PaginaAtual == Model.Paginacao.TotalPaginas ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-pagina="@Model.Paginacao.TotalPaginas" asp-route-nomePesquisar="@Model.NomePesquisar">Última</a>
+                    <a class="page-link" asp-action="IndexAll" asp-route-pagina="@Model.Paginacao.TotalPaginas" asp-route-nomePesquisar="@Model.NomePesquisar">Última</a>
                 </li>
             </ul>
         </div>}
